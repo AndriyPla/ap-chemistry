@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { topics } from '../content/config';
 import { shuffledOptions } from '../lib/options';
-import { AP_QUESTION_BANK_SOURCE, getAPQuestions, type APBankQuestion } from '../content/apQuestionBank';
+import { getAPQuestions, type APBankQuestion } from '../content/apQuestionBank';
 import type { TopicId } from '../content/types';
 
 type Scope = TopicId | '2';
@@ -32,10 +32,23 @@ export function APPracticeView({scope,navigate}:{scope:Scope;navigate:(path:stri
 }
 
 function APQuestionVisual({question}:{question:APBankQuestion}){
+ if(!question.stimulus)return null;
+ if(question.stimulus==='electronegativity')return <div className="ap-stimulus ap-chart-stimulus"><table aria-label="Stimulus 2.1-A: selected electronegativity values"><thead><tr><th>Element</th><th>H</th><th>C</th><th>N</th><th>O</th><th>F</th><th>P</th><th>S</th><th>Cl</th></tr></thead><tbody><tr><th>Electronegativity</th><td>2.2</td><td>2.6</td><td>3.0</td><td>3.4</td><td>4.0</td><td>2.2</td><td>2.6</td><td>3.2</td></tr></tbody></table></div>;
  if(question.stimulus==='bond-curves')return <div className="ap-stimulus"><img src={`${import.meta.env.BASE_URL}assets/unit2/bond-potential-curves.svg`} alt="Stimulus 2.2-A: potential-energy curves for bonds A and B"/></div>;
  if(question.stimulus==='ionic-lattice')return <div className="ap-stimulus"><img src={`${import.meta.env.BASE_URL}assets/unit2/ionic-lattice-shift.svg`} alt="Stimulus 2.3-A: alternating ionic lattice before and after a layer shift"/></div>;
  if(question.stimulus==='ionic-properties')return <div className="ap-stimulus ap-chart-stimulus"><table aria-label="Stimulus 2.3-B: selected ionic properties"><thead><tr><th>Ion</th><th>Charge</th><th>Radius (pm)</th></tr></thead><tbody><tr><td>Li⁺ / Na⁺ / K⁺</td><td>+1</td><td>76 / 102 / 138</td></tr><tr><td>Mg²⁺ / Ca²⁺</td><td>+2</td><td>72 / 100</td></tr><tr><td>F⁻ / Cl⁻ / Br⁻</td><td>−1</td><td>133 / 181 / 196</td></tr><tr><td>O²⁻ / S²⁻</td><td>−2</td><td>140 / 184</td></tr></tbody></table></div>;
- return <div className="ap-stimulus ap-text-stimulus"><span>{AP_QUESTION_BANK_SOURCE}</span><b>Question {question.number} · {question.topic==='mixed'?'Mixed Unit 2':`Topic ${question.topic}`}</b></div>
+ if(question.stimulus==='alloy-models')return <div className="ap-stimulus"><img src={`${import.meta.env.BASE_URL}assets/unit2/alloy-models.svg`} alt="Stimulus 2.4-A: pure metal, substitutional alloy, and interstitial alloy particle models"/></div>;
+ if(question.stimulus==='lewis-candidates')return <div className="ap-stimulus ap-lewis-candidates" role="img" aria-label="Stimulus 2.5-A: five candidate electron-dot diagrams"><pre>{`Diagram I              Diagram II             Diagram III
+  ··      ··                                      ··     ··
+  O — O               H — C — N :              O = C = O
+  ··      ··                                      ··     ··
+
+Diagram IV             Diagram V
+: N ≡ N :                 H
+                        H—C—H
+                          H`}</pre></div>;
+ if(question.stimulus==='bond-lengths')return <div className="ap-stimulus ap-chart-stimulus"><table aria-label="Stimulus 2.6-A: measured and typical bond lengths"><thead><tr><th>Species or bond</th><th>Length (pm)</th></tr></thead><tbody><tr><td>N–O / N=O / NO₃⁻</td><td>140 / 120 / 124</td></tr><tr><td>C–O / C=O / CO₃²⁻</td><td>143 / 120 / 129</td></tr></tbody></table></div>;
+ return <div className="ap-stimulus"><img src={`${import.meta.env.BASE_URL}assets/unit2/vsepr-models.svg`} alt="Stimulus 2.7-A: five molecular geometry models"/></div>
 }
 
 function ToolPanel({tool,close,exit}:{tool:'notes'|'calculator'|'reference'|'more';close:()=>void;exit:()=>void}){

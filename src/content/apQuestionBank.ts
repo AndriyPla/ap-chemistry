@@ -9,15 +9,20 @@ export type APBankQuestion = {
   options: string[];
   answer: string;
   solution: string;
-  stimulus: 'bond-curves' | 'ionic-lattice' | 'ionic-properties' | null;
+  stimulus: 'electronegativity' | 'bond-curves' | 'ionic-lattice' | 'ionic-properties' | 'alloy-models' | 'lewis-candidates' | 'bond-lengths' | 'vsepr-models' | null;
 };
 
 const clean = (value: string) => value.replace(/\s{2,}\n/g, '\n').replace(/\s+/g, ' ').trim();
 
 function getStimulus(number: number): APBankQuestion['stimulus'] {
+  if ([2, 3, 6, 7, 9, 12].includes(number)) return 'electronegativity';
   if ([26, 27, 31, 32, 34, 35, 39, 40].includes(number)) return 'bond-curves';
   if ([51, 54, 55, 56, 59].includes(number)) return 'ionic-lattice';
   if ([52, 53, 57, 58, 60, 61, 62].includes(number)) return 'ionic-properties';
+  if ((number >= 76 && number <= 84) || [87, 88].includes(number)) return 'alloy-models';
+  if ([107, 113, 114, 115].includes(number)) return 'lewis-candidates';
+  if ([128, 129, 130, 134, 135, 136, 137, 138, 139].includes(number)) return 'bond-lengths';
+  if (number >= 151 && number <= 165) return 'vsepr-models';
   return null;
 }
 
