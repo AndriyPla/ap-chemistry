@@ -1,8 +1,11 @@
-import { render,screen,fireEvent } from '@testing-library/react';
-import { describe,expect,it } from 'vitest';
+import { cleanup,render,screen,fireEvent } from '@testing-library/react';
+import { afterEach,describe,expect,it } from 'vitest';
 import App from '../App';
+afterEach(cleanup);
 describe('student workflows',()=>{
  it('opens Unit 2 and a lesson without exposing scores or login',()=>{location.hash='/';render(<App/>);fireEvent.click(screen.getByRole('button',{name:/explore active unit 2/i}));expect(screen.getByText(/Compound Structure/)).toBeInTheDocument();expect(screen.queryByText(/log in|score:/i)).not.toBeInTheDocument();fireEvent.click(screen.getAllByRole('button',{name:'Learn'})[0]);expect(screen.getByText('Learning objectives')).toBeInTheDocument()});
  it('opens the periodic table and exposes element details',()=>{location.hash='/';render(<App/>);fireEvent.click(screen.getAllByRole('button',{name:/periodic table/i}).at(-1)!);expect(screen.getByLabelText('Interactive periodic table')).toBeInTheDocument();fireEvent.click(screen.getByRole('button',{name:'Copper, atomic number 29, atomic mass 63.546'}));expect(screen.getByText('Atomic number 29')).toBeInTheDocument()});
  it('checks an alloy particle-structure model',()=>{location.hash='/practice/2.4';render(<App/>);fireEvent.click(screen.getByRole('radio',{name:/Pure metal/}));fireEvent.click(screen.getByRole('button',{name:'Check structure'}));expect(screen.getByText(/Correct. Only copper atoms/)).toBeInTheDocument()});
+ it('provides three visual guides on every Unit 2 lesson',()=>{for(const topic of ['2.1','2.2','2.3','2.4','2.5','2.6','2.7']){location.hash=`/learn/${topic}`;const view=render(<App/>);expect(view.container.querySelectorAll('.step-visual')).toHaveLength(3);view.unmount()}});
+ it('opens a printable Unit 2 Blue Sheet and exposes eight resize handles',()=>{location.hash='/blue-sheet';const view=render(<App/>);expect(screen.getByLabelText('Unit 2 printable blue sheet')).toBeInTheDocument();fireEvent.click(screen.getByRole('button',{name:/periodic table/i}));expect(view.container.querySelectorAll('.resize-handle')).toHaveLength(8)});
 });

@@ -1,0 +1,32 @@
+import { useState, type ReactNode } from 'react';
+import { units } from '../content/config';
+
+export function BlueSheetPage({navigate}:{navigate:(path:string)=>void}){
+ const [unit,setUnit]=useState('2');
+ return <main id="main" className="page blue-sheet-page"><nav className="crumbs"><button onClick={()=>navigate('/')}>All units</button><span>/</span><span>Blue Sheet</span></nav>
+  <header className="blue-sheet-head"><div><p className="eyebrow">ONE-SIDED TEST NOTES</p><h1>Blue Sheet Builder</h1><p>Select a unit, then copy the most useful formulas, diagrams, memory shortcuts, and solution steps onto one 8.5 × 11 inch page.</p></div><div className="blue-sheet-controls"><label>AP Chemistry unit<select value={unit} onChange={e=>setUnit(e.target.value)}>{units.map(([n,title])=><option key={n} value={n}>{n}. {title}</option>)}</select></label><button className="primary" disabled={unit!=='2'} onClick={()=>window.print()}>Print / Save PDF</button></div></header>
+  {unit==='2'?<Unit2BlueSheet/>:<section className="sheet-unavailable"><p className="eyebrow">COMING LATER</p><h2>Unit {unit} is not built yet</h2><p>The selector is ready, but this site currently contains reviewed lesson and practice content only for Unit 2. The Blue Sheet will unlock here when that unit is added.</p></section>}
+ </main>
+}
+
+function Unit2BlueSheet(){return <section className="blue-sheet-paper" aria-label="Unit 2 printable blue sheet">
+ <header><div><small>AP CHEMISTRY · UNIT 2</small><h2>Compound Structure &amp; Properties</h2></div><div className="sheet-mantra"><b>CLAIM → EVIDENCE → REASONING</b><span>Name particles · describe arrangement · explain forces/motion</span></div></header>
+ <div className="sheet-columns">
+  <div className="sheet-column">
+   <SheetBlock title="2.1 Bond types" memory="PIM: particles → interaction → macroscopic property"><p><b>Nonpolar covalent:</b> nearly equal sharing. <b>Polar covalent:</b> unequal sharing, δ+ / δ−. <b>Ionic:</b> cation–anion lattice. <b>Metallic:</b> positive cores + delocalized e⁻.</p><div className="sheet-spectrum"><span>even sharing</span><span>unequal</span><span>ionic character</span></div><p><b>Conductivity:</b> needs mobile charge. Metals: e⁻ mobile as solids. Ionic: ions mobile only molten/aqueous.</p></SheetBlock>
+   <SheetBlock title="2.2 Potential energy" memory="Left = short · Deep = strong"><MiniCurve/><ul><li>x at minimum = equilibrium bond length</li><li>depth below 0 = bond energy</li><li>left of minimum: repulsion; right: attraction</li><li>at minimum: net force = 0</li></ul></SheetBlock>
+   <SheetBlock title="2.3 Ionic solids" memory="Fixed → no conduct · mobile → conduct · shifted → fracture"><p><b>Formula unit:</b> smallest charge-neutral ratio, not a molecule.</p><div className="sheet-example"><b>Example</b> Mg²⁺ + 2Cl⁻ → MgCl₂<br/>(+2) + 2(−1) = 0</div><p>High mp: strong Coulombic attraction. Brittle: shifted layers align like charges → repulsion/crack.</p></SheetBlock>
+   <SheetBlock title="2.4 Metals & alloys" memory="Replace = substitutional · Gap = interstitial"><div className="sheet-alloys"><span>● ● ●<br/>● ◉ ●<small>similar size replaces</small></span><span>● · ●<br/>● ● ●<small>small atom in gap</small></span></div><p>Alloy atoms disrupt regular layers → resist sliding → usually harder/less ductile.</p></SheetBlock>
+  </div>
+  <div className="sheet-column">
+   <SheetBlock title="2.5 Lewis structures" memory="COUNT → CONNECT → OUTSIDE → CENTER → CHECK"><ol><li>Total valence e⁻; add for − charge, subtract for +.</li><li>Skeleton; H never central.</li><li>Single bonds (2 e⁻ each).</li><li>Complete terminal octets, then center.</li><li>Center short? Make multiple bonds.</li><li>Verify e⁻ total + formal charges.</li></ol><div className="sheet-example"><b>CO₂:</b> 4 + 2(6) = 16 e⁻ → O=C=O; each O has 2 lone pairs.</div><p><b>Exceptions:</b> H duet; Be/B incomplete; odd total = radical; period 3+ can expand.</p></SheetBlock>
+   <SheetBlock title="2.6 Formal charge & resonance" memory="V − D − L: valence − dots − lines"><p className="sheet-formula">FC = valence e⁻ − nonbonding e⁻ − bond lines</p><p>Σ formal charges = overall charge.</p><div className="sheet-resonance">O—N=O &nbsp; ↔ &nbsp; O=N—O</div><p><b>Resonance:</b> same atoms/connectivity; move only π e⁻ or lone pairs. Real structure is a hybrid.</p><p><b>Best contributor:</b> complete octets → small |FC| → negative charge on more electronegative atom.</p></SheetBlock>
+   <SheetBlock title="2.7 VSEPR + hybridization" memory="Domains first, shape second"><table><thead><tr><th>domains</th><th>e⁻ geometry</th><th>angle</th><th>hybrid</th></tr></thead><tbody><tr><td>2</td><td>linear</td><td>180°</td><td>sp</td></tr><tr><td>3</td><td>trig planar</td><td>120°</td><td>sp²</td></tr><tr><td>4</td><td>tetrahedral</td><td>109.5°</td><td>sp³</td></tr></tbody></table><p>Each bond (single/double/triple) = 1 domain; each lone pair = 1. Electron geometry counts all domains; molecular geometry names atom positions.</p><div className="shape-row"><span>AX₂<br/><b>linear</b></span><span>AX₃<br/><b>trig planar</b></span><span>AX₄<br/><b>tetrahedral</b></span><span>AX₃E<br/><b>trig pyramidal</b></span><span>AX₂E₂<br/><b>bent</b></span></div><p>Lone-pair repulsion compresses angles: CH₄ 109.5° &gt; NH₃ ≈107° &gt; H₂O ≈104.5°.</p></SheetBlock>
+   <SheetBlock title="Fast AP response templates" memory="Never stop at a vocabulary word"><p><b>Property:</b> “Because ___ particles are [arranged/mobile], ___ attraction/motion causes ___.”</p><p><b>Diagram:</b> “The model shows ___. This means ___. Therefore ___.”</p><p><b>Comparison:</b> make one claim per variable and cite its own evidence.</p></SheetBlock>
+  </div>
+ </div>
+ <footer><b>FINAL 20-SECOND CHECK</b><span>charges sum? · electrons total? · domains counted once? · phase stated? · evidence connected to claim?</span></footer>
+ </section>}
+
+function SheetBlock({title,memory,children}:{title:string;memory:string;children:ReactNode}){return <section className="sheet-block"><h3>{title}</h3><p className="sheet-memory">{memory}</p>{children}</section>}
+function MiniCurve(){return <svg className="sheet-curve" viewBox="0 0 260 100" aria-label="Potential energy curve"><path d="M8 10V86H250"/><path d="M12 28 C60 28 65 80 112 80 C150 80 145 28 246 28"/><line x1="112" y1="80" x2="112" y2="87"/><text x="90" y="98">bond length</text><line x1="118" y1="28" x2="118" y2="80"/><text x="123" y="58">bond energy</text></svg>}
