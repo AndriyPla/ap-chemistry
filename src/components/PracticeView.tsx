@@ -8,22 +8,22 @@ import { shuffledOptions } from '../lib/options';
 import { LewisBuilder } from './LewisBuilder';
 import { AlloyVisualPractice } from './AlloyVisualPractice';
 
-export function PracticeView({topic,navigate}:{topic:TopicId;navigate:(path:string)=>void}){
- const bank=questionBanks[topic],info=topics.find(t=>t.id===topic)!;const [index,setIndex]=useState(0),[input,setInput]=useState(''),[status,setStatus]=useState(''),[panel,setPanel]=useState<'hint'|'explain'|'solution'|null>(null);
+export function PracticeView({topic,navigate}:{topic:TopicId|'2';navigate:(path:string)=>void}){
+ const bank=useMemo(()=>topic==='2'?Object.values(questionBanks).flat():questionBanks[topic],[topic]),info=topic==='2'?{title:'Whole Unit 2 Concept Practice'}:topics.find(t=>t.id===topic)!;const [index,setIndex]=useState(0),[input,setInput]=useState(''),[status,setStatus]=useState(''),[panel,setPanel]=useState<'hint'|'explain'|'solution'|null>(null);
  const q=bank[index];useEffect(()=>{setInput('');setStatus('');setPanel(null)},[index]);
  const next=()=>{let n=index;while(n===index)n=Math.floor(Math.random()*bank.length);setIndex(n)};
  const check=()=>{if(!input.trim()){setStatus(q.diagnostics.blank);return}setStatus(checkSimpleAnswer(q.answer,input)?'Correct — your answer matches the reviewed record.':q.diagnostics[input]??q.diagnostics.incorrect)};
- return <main id="main" className="page practice"><nav className="crumbs"><button onClick={()=>navigate('/unit/2')}>Unit 2</button><span>/</span><button onClick={()=>navigate(`/learn/${topic}`)}>Learn</button><span>/</span><span>Practice</span></nav>
-  <header className="practice-head"><div><p className="eyebrow">PRACTICE · TOPIC {topic}</p><h1>{info.title}</h1><p>No score, attempt history, or hint usage is recorded.</p></div><label>Choose problem<select value={index} onChange={e=>setIndex(Number(e.target.value))}>{bank.map((x,i)=><option key={x.id} value={i}>{i+1} · {x.id}</option>)}</select></label></header>
-  {topic==='2.4'&&<AlloyVisualPractice/>}
+ return <main id="main" className="page practice"><nav className="crumbs"><button onClick={()=>navigate('/unit/2')}>Unit 2</button><span>/</span>{topic!=='2'&&<><button onClick={()=>navigate(`/learn/${topic}`)}>Learn</button><span>/</span></>}<span>Practice Concepts</span></nav>
+  <header className="practice-head"><div><p className="eyebrow">PRACTICE CONCEPTS · {topic==='2'?'WHOLE UNIT':`TOPIC ${topic}`}</p><h1>{info.title}</h1><p>Interactive models, builders, unlimited help, and immediate feedback. Nothing is recorded.</p></div><label>Choose problem<select value={index} onChange={e=>setIndex(Number(e.target.value))}>{bank.map((x,i)=><option key={`${x.topic}-${x.id}`} value={i}>{i+1} · {x.topic} · {x.id}</option>)}</select></label></header>
+  {q.topic==='2.4'&&<AlloyVisualPractice/>}
   <div className="question-meta"><span>{q.difficulty}</span><span>{q.representation}</span>{q.concepts.map(x=><span key={x}>{x}</span>)}</div><article className="question-card"><p className="question-number">PROBLEM {index+1} OF {bank.length}</p><h2>{q.prompt}</h2>
    {q.answer.kind==='lewis'?<LewisBuilder key={q.id} target={structureById[q.answer.structureId]} onResult={ok=>setStatus(ok?'Correct — the reviewed structure is unlocked.':'')}/>:<SimpleInput q={q} input={input} setInput={setInput} check={check}/>} 
    {q.answer.kind!=='lewis'&&<p className={`feedback ${status.startsWith('Correct')?'success':''}`} role="status">{status}</p>}
    <button className="primary in-card-next" onClick={next}>Next problem <span aria-hidden="true">→</span></button>
   </article>
   <div className="help-bar" aria-label="Unlimited help"><button aria-pressed={panel==='hint'} onClick={()=>setPanel('hint')}>Conceptual hint</button><button aria-pressed={panel==='explain'} onClick={()=>setPanel('explain')}>Explain the idea</button><button aria-pressed={panel==='solution'} onClick={()=>setPanel('solution')}>Show full solution</button></div>
-  {panel&&<aside className="help-panel"><p className="eyebrow">{panel==='hint'?'HINT':panel==='explain'?'CONCEPT EXPLANATION':'WORKED SOLUTION'}</p><p>{panel==='hint'?q.hints[0]:panel==='explain'?q.hints[1]:q.solution}</p>{panel==='explain'&&<button onClick={()=>navigate(`/learn/${topic}#${q.lessonSection}`)}>Open related lesson section</button>}</aside>}
-  <div className="next-row"><button onClick={()=>setIndex(Math.max(0,index-1))} disabled={index===0}>Previous</button><button className="primary" onClick={next}>Another problem</button><button onClick={()=>setIndex(Math.min(49,index+1))} disabled={index===49}>Next</button></div>
+  {panel&&<aside className="help-panel"><p className="eyebrow">{panel==='hint'?'HINT':panel==='explain'?'CONCEPT EXPLANATION':'WORKED SOLUTION'}</p><p>{panel==='hint'?q.hints[0]:panel==='explain'?q.hints[1]:q.solution}</p>{panel==='explain'&&<button onClick={()=>navigate(`/learn/${q.topic}#${q.lessonSection}`)}>Open related lesson section</button>}</aside>}
+  <div className="next-row"><button onClick={()=>setIndex(Math.max(0,index-1))} disabled={index===0}>Previous</button><button className="primary" onClick={next}>Another problem</button><button onClick={()=>setIndex(Math.min(bank.length-1,index+1))} disabled={index===bank.length-1}>Next</button></div>
  </main>
 }
 function SimpleInput({q,input,setInput,check}:{q:Question;input:string;setInput:(x:string)=>void;check:()=>void}){
