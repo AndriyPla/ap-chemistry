@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="350" viewBox="0 0 840 350" role="img" aria-labelledby="title desc">
+  <title id="title">Particle models of a pure metal and two alloy types</title>
+  <desc id="desc">Panel one shows identical host atoms. Panel two shows similar-sized solute atoms replacing host atoms. Panel three shows smaller solute atoms in gaps between host atoms.</desc>
+  <rect width="840" height="350" fill="#ffffff"/>
+  <text x="420" y="28" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#111827">Particulate Models of Metallic Solids</text>
+  <g font-family="Arial, sans-serif" text-anchor="middle">
+    <text x="145" y="60" font-size="16" font-weight="700">Model I</text><text x="420" y="60" font-size="16" font-weight="700">Model II</text><text x="695" y="60" font-size="16" font-weight="700">Model III</text>
+    <g fill="#d1d5db" stroke="#4b5563" stroke-width="2">
+      <circle cx="85" cy="110" r="28"/><circle cx="145" cy="110" r="28"/><circle cx="205" cy="110" r="28"/><circle cx="115" cy="165" r="28"/><circle cx="175" cy="165" r="28"/><circle cx="85" cy="220" r="28"/><circle cx="145" cy="220" r="28"/><circle cx="205" cy="220" r="28"/>
+      <circle cx="360" cy="110" r="28"/><circle cx="420" cy="110" r="28"/><circle cx="480" cy="110" r="28"/><circle cx="390" cy="165" r="28"/><circle cx="450" cy="165" r="28"/><circle cx="360" cy="220" r="28"/><circle cx="420" cy="220" r="28"/><circle cx="480" cy="220" r="28"/>
+      <circle cx="635" cy="110" r="28"/><circle cx="695" cy="110" r="28"/><circle cx="755" cy="110" r="28"/><circle cx="665" cy="165" r="28"/><circle cx="725" cy="165" r="28"/><circle cx="635" cy="220" r="28"/><circle cx="695" cy="220" r="28"/><circle cx="755" cy="220" r="28"/>
+    </g>
+    <g fill="#f59e0b" stroke="#92400e" stroke-width="2"><circle cx="420" cy="110" r="28"/><circle cx="360" cy="220" r="28"/></g>
+    <g fill="#8b5cf6" stroke="#5b21b6" stroke-width="2"><circle cx="665" cy="137" r="11"/><circle cx="725" cy="192" r="11"/><circle cx="725" cy="82" r="11"/></g>
+    <text x="145" y="285" font-size="14">one atom type</text>
+    <text x="420" y="285" font-size="14">similar-sized atoms share sites</text>
+    <text x="695" y="285" font-size="14">small atoms occupy gaps</text>
+    <text x="420" y="325" font-size="13" fill="#4b5563">Gray = host atoms; orange or purple = added atoms</text>
+  </g>
+</svg>

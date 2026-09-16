@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="470" viewBox="0 0 900 470" role="img" aria-labelledby="title desc">
+  <title id="title">Five molecular geometry models</title>
+  <desc id="desc">Models I through V show linear, trigonal planar, tetrahedral, trigonal pyramidal, and bent molecular geometries without naming them in the panel.</desc>
+  <rect width="900" height="470" fill="#ffffff"/>
+  <text x="450" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#111827">Molecular Geometry Models</text>
+  <g stroke="#374151" stroke-width="4" fill="none">
+    <line x1="100" y1="130" x2="45" y2="130"/><line x1="100" y1="130" x2="155" y2="130"/>
+    <line x1="275" y1="130" x2="275" y2="70"/><line x1="275" y1="130" x2="225" y2="165"/><line x1="275" y1="130" x2="325" y2="165"/>
+    <line x1="455" y1="130" x2="455" y2="70"/><line x1="455" y1="130" x2="405" y2="165"/><line x1="455" y1="130" x2="505" y2="165"/><line x1="455" y1="130" x2="490" y2="105" stroke-dasharray="5 5"/>
+    <line x1="635" y1="130" x2="635" y2="70"/><line x1="635" y1="130" x2="585" y2="165"/><line x1="635" y1="130" x2="685" y2="165"/>
+    <line x1="810" y1="130" x2="765" y2="165"/><line x1="810" y1="130" x2="855" y2="165"/>
+  </g>
+  <g fill="#2563eb" stroke="#1e3a8a" stroke-width="2"><circle cx="100" cy="130" r="18"/><circle cx="275" cy="130" r="18"/><circle cx="455" cy="130" r="18"/><circle cx="635" cy="130" r="18"/><circle cx="810" cy="130" r="18"/></g>
+  <g fill="#f59e0b" stroke="#92400e" stroke-width="2">
+    <circle cx="45" cy="130" r="14"/><circle cx="155" cy="130" r="14"/>
+    <circle cx="275" cy="70" r="14"/><circle cx="225" cy="165" r="14"/><circle cx="325" cy="165" r="14"/>
+    <circle cx="455" cy="70" r="14"/><circle cx="405" cy="165" r="14"/><circle cx="505" cy="165" r="14"/><circle cx="490" cy="105" r="14"/>
+    <circle cx="635" cy="70" r="14"/><circle cx="585" cy="165" r="14"/><circle cx="685" cy="165" r="14"/>
+    <circle cx="765" cy="165" r="14"/><circle cx="855" cy="165" r="14"/>
+  </g>
+  <g font-family="Arial, sans-serif" text-anchor="middle" fill="#111827"><text x="100" y="225" font-size="16" font-weight="700">Model I</text><text x="275" y="225" font-size="16" font-weight="700">Model II</text><text x="455" y="225" font-size="16" font-weight="700">Model III</text><text x="635" y="225" font-size="16" font-weight="700">Model IV</text><text x="810" y="225" font-size="16" font-weight="700">Model V</text></g>
+  <line x1="70" y1="275" x2="830" y2="275" stroke="#d1d5db"/>
+  <g font-family="Arial, sans-serif" fill="#111827"><text x="80" y="315" font-size="14" font-weight="700">Legend</text><circle cx="160" cy="310" r="12" fill="#2563eb" stroke="#1e3a8a"/><text x="180" y="315" font-size="14">central atom</text><circle cx="315" cy="310" r="10" fill="#f59e0b" stroke="#92400e"/><text x="335" y="315" font-size="14">bonded atom</text><text x="80" y="360" font-size="13" fill="#4b5563">Solid lines lie in the page. A dashed line extends behind the page. Model drawings are schematic and not to scale.</text></g>
+</svg>

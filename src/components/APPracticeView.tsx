@@ -1,19 +1,17 @@
 import { useMemo, useState } from 'react';
-import { questionBanks } from '../content/questions';
 import { topics } from '../content/config';
 import { shuffledOptions } from '../lib/options';
-import type { Question, TopicId } from '../content/types';
+import { AP_QUESTION_BANK_SOURCE, getAPQuestions, type APBankQuestion } from '../content/apQuestionBank';
+import type { TopicId } from '../content/types';
 
 type Scope = TopicId | '2';
 
 export function APPracticeView({scope,navigate}:{scope:Scope;navigate:(path:string)=>void}){
  const questions=useMemo(()=>{
-  const source=scope==='2'?Object.values(questionBanks).flat():questionBanks[scope];
-  const ap=source.filter(q=>q.difficulty==='ap-style'&&q.answer.kind==='choice'&&(q.options?.length??0)>=4);
-  return ap.length?ap:source.filter(q=>q.answer.kind==='choice'&&(q.options?.length??0)>=4);
+  return getAPQuestions(scope);
  },[scope]);
  const [index,setIndex]=useState(0),[selected,setSelected]=useState(''),[checked,setChecked]=useState(false),[marked,setMarked]=useState<Set<number>>(new Set()),[tool,setTool]=useState<'notes'|'calculator'|'reference'|'more'|null>(null),[navigatorOpen,setNavigatorOpen]=useState(false);
- const q=questions[index],info=scope==='2'?null:topics.find(t=>t.id===scope),options=useMemo(()=>shuffledOptions(q.id,q.options??[]),[q.id,q.options]),answerValue=q.answer.kind==='choice'?q.answer.value:'';
+ const q=questions[index],info=scope==='2'?null:topics.find(t=>t.id===scope),options=useMemo(()=>shuffledOptions(q.id,q.options),[q.id,q.options]),answerValue=q.answer;
  const correct=selected===answerValue;
  const move=(next:number)=>{setIndex(Math.max(0,Math.min(questions.length-1,next)));setSelected('');setChecked(false);setNavigatorOpen(false)};
  const toggleMark=()=>setMarked(current=>{const next=new Set(current);next.has(index)?next.delete(index):next.add(index);return next});
@@ -33,13 +31,11 @@ export function APPracticeView({scope,navigate}:{scope:Scope;navigate:(path:stri
  </main>
 }
 
-function APQuestionVisual({question}:{question:Question}){
- if(question.representation==='graph')return <div className="ap-stimulus"><svg viewBox="0 0 520 180" role="img" aria-label="Potential energy curve"><line x1="55" y1="20" x2="55" y2="145"/><line x1="55" y1="145" x2="490" y2="145"/><line className="zero" x1="55" y1="55" x2="490" y2="55"/><path d="M88 23C105 70 125 135 192 135C240 135 242 60 460 56"/><text x="212" y="172">Internuclear distance</text><text x="8" y="18">Energy</text></svg></div>;
- if(question.representation==='particle')return <div className="ap-stimulus ap-particle-stimulus" role="img" aria-label="Particle-level ionic solid model">{Array.from({length:18},(_,i)=><span key={i} className={i%2?'anion':'cation'}>{i%2?'−':'+'}</span>)}</div>;
- if(question.representation==='lewis')return <div className="ap-stimulus ap-lewis-stimulus" aria-label="Lewis structure example"><span>··</span><strong>O</strong><b>=</b><strong>C</strong><b>=</b><strong>O</strong><span>··</span></div>;
- if(question.representation==='chart')return <div className="ap-stimulus ap-chart-stimulus"><table><thead><tr><th>Domains</th><th>Geometry</th><th>Angle</th></tr></thead><tbody><tr><td>2</td><td>Linear</td><td>180°</td></tr><tr><td>3</td><td>Trigonal planar</td><td>120°</td></tr><tr><td>4</td><td>Tetrahedral</td><td>109.5°</td></tr></tbody></table></div>;
- if(question.representation==='calculation')return <div className="ap-stimulus ap-formula-stimulus"><b>formal charge</b><span>valence e⁻ − nonbonding e⁻ − bond lines</span></div>;
- return <div className="ap-stimulus ap-text-stimulus"><span>AP CHEMISTRY · UNIT 2</span><b>Analyze the evidence before selecting an answer.</b></div>
+function APQuestionVisual({question}:{question:APBankQuestion}){
+ if(question.stimulus==='bond-curves')return <div className="ap-stimulus"><img src={`${import.meta.env.BASE_URL}assets/unit2/bond-potential-curves.svg`} alt="Stimulus 2.2-A: potential-energy curves for bonds A and B"/></div>;
+ if(question.stimulus==='ionic-lattice')return <div className="ap-stimulus"><img src={`${import.meta.env.BASE_URL}assets/unit2/ionic-lattice-shift.svg`} alt="Stimulus 2.3-A: alternating ionic lattice before and after a layer shift"/></div>;
+ if(question.stimulus==='ionic-properties')return <div className="ap-stimulus ap-chart-stimulus"><table aria-label="Stimulus 2.3-B: selected ionic properties"><thead><tr><th>Ion</th><th>Charge</th><th>Radius (pm)</th></tr></thead><tbody><tr><td>Li⁺ / Na⁺ / K⁺</td><td>+1</td><td>76 / 102 / 138</td></tr><tr><td>Mg²⁺ / Ca²⁺</td><td>+2</td><td>72 / 100</td></tr><tr><td>F⁻ / Cl⁻ / Br⁻</td><td>−1</td><td>133 / 181 / 196</td></tr><tr><td>O²⁻ / S²⁻</td><td>−2</td><td>140 / 184</td></tr></tbody></table></div>;
+ return <div className="ap-stimulus ap-text-stimulus"><span>{AP_QUESTION_BANK_SOURCE}</span><b>Question {question.number} · {question.topic==='mixed'?'Mixed Unit 2':`Topic ${question.topic}`}</b></div>
 }
 
 function ToolPanel({tool,close,exit}:{tool:'notes'|'calculator'|'reference'|'more';close:()=>void;exit:()=>void}){

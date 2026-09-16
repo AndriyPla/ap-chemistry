@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="390" viewBox="0 0 800 390" role="img" aria-labelledby="title desc">
+  <title id="title">Ionic lattice before and after a layer shift</title>
+  <desc id="desc">The left panel shows alternating positive and negative ions. The right panel shows the upper layers shifted so like charges align, producing repulsion and a fracture plane.</desc>
+  <rect width="800" height="390" fill="#ffffff"/>
+  <text x="400" y="28" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#111827">Ionic Crystal Under Mechanical Stress</text>
+  <text x="205" y="60" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#111827">Before displacement</text>
+  <text x="600" y="60" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#111827">After upper layers shift</text>
+  <g font-family="Arial, sans-serif" font-size="17" font-weight="700" text-anchor="middle" dominant-baseline="middle">
+    <g transform="translate(85 90)">
+      <g fill="#dbeafe" stroke="#2563eb" stroke-width="2">
+        <circle cx="0" cy="0" r="22"/><circle cx="100" cy="0" r="22"/><circle cx="200" cy="0" r="22"/>
+        <circle cx="50" cy="55" r="22"/><circle cx="150" cy="55" r="22"/><circle cx="250" cy="55" r="22"/>
+        <circle cx="0" cy="110" r="22"/><circle cx="100" cy="110" r="22"/><circle cx="200" cy="110" r="22"/>
+        <circle cx="50" cy="165" r="22"/><circle cx="150" cy="165" r="22"/><circle cx="250" cy="165" r="22"/>
+      </g>
+      <g fill="#fee2e2" stroke="#dc2626" stroke-width="2">
+        <circle cx="50" cy="0" r="22"/><circle cx="150" cy="0" r="22"/><circle cx="250" cy="0" r="22"/>
+        <circle cx="0" cy="55" r="22"/><circle cx="100" cy="55" r="22"/><circle cx="200" cy="55" r="22"/>
+        <circle cx="50" cy="110" r="22"/><circle cx="150" cy="110" r="22"/><circle cx="250" cy="110" r="22"/>
+        <circle cx="0" cy="165" r="22"/><circle cx="100" cy="165" r="22"/><circle cx="200" cy="165" r="22"/>
+      </g>
+      <g fill="#1e3a8a"><text x="0" y="1">+</text><text x="100" y="1">+</text><text x="200" y="1">+</text><text x="50" y="56">+</text><text x="150" y="56">+</text><text x="250" y="56">+</text><text x="0" y="111">+</text><text x="100" y="111">+</text><text x="200" y="111">+</text><text x="50" y="166">+</text><text x="150" y="166">+</text><text x="250" y="166">+</text></g>
+      <g fill="#7f1d1d"><text x="50" y="1">−</text><text x="150" y="1">−</text><text x="250" y="1">−</text><text x="0" y="56">−</text><text x="100" y="56">−</text><text x="200" y="56">−</text><text x="50" y="111">−</text><text x="150" y="111">−</text><text x="250" y="111">−</text><text x="0" y="166">−</text><text x="100" y="166">−</text><text x="200" y="166">−</text></g>
+    </g>
+    <g transform="translate(480 90)">
+      <g transform="translate(50 0)">
+        <g fill="#dbeafe" stroke="#2563eb" stroke-width="2"><circle cx="0" cy="0" r="22"/><circle cx="100" cy="0" r="22"/><circle cx="200" cy="0" r="22"/><circle cx="50" cy="55" r="22"/><circle cx="150" cy="55" r="22"/><circle cx="250" cy="55" r="22"/></g>
+        <g fill="#fee2e2" stroke="#dc2626" stroke-width="2"><circle cx="50" cy="0" r="22"/><circle cx="150" cy="0" r="22"/><circle cx="250" cy="0" r="22"/><circle cx="0" cy="55" r="22"/><circle cx="100" cy="55" r="22"/><circle cx="200" cy="55" r="22"/></g>
+        <g fill="#1e3a8a"><text x="0" y="1">+</text><text x="100" y="1">+</text><text x="200" y="1">+</text><text x="50" y="56">+</text><text x="150" y="56">+</text><text x="250" y="56">+</text></g>
+        <g fill="#7f1d1d"><text x="50" y="1">−</text><text x="150" y="1">−</text><text x="250" y="1">−</text><text x="0" y="56">−</text><text x="100" y="56">−</text><text x="200" y="56">−</text></g>
+      </g>
+      <line x1="0" y1="82" x2="300" y2="82" stroke="#7c3aed" stroke-width="3" stroke-dasharray="8 5"/>
+      <g fill="#dbeafe" stroke="#2563eb" stroke-width="2"><circle cx="0" cy="110" r="22"/><circle cx="100" cy="110" r="22"/><circle cx="200" cy="110" r="22"/><circle cx="50" cy="165" r="22"/><circle cx="150" cy="165" r="22"/><circle cx="250" cy="165" r="22"/></g>
+      <g fill="#fee2e2" stroke="#dc2626" stroke-width="2"><circle cx="50" cy="110" r="22"/><circle cx="150" cy="110" r="22"/><circle cx="250" cy="110" r="22"/><circle cx="0" cy="165" r="22"/><circle cx="100" cy="165" r="22"/><circle cx="200" cy="165" r="22"/></g>
+      <g fill="#1e3a8a"><text x="0" y="111">+</text><text x="100" y="111">+</text><text x="200" y="111">+</text><text x="50" y="166">+</text><text x="150" y="166">+</text><text x="250" y="166">+</text></g>
+      <g fill="#7f1d1d"><text x="50" y="111">−</text><text x="150" y="111">−</text><text x="250" y="111">−</text><text x="0" y="166">−</text><text x="100" y="166">−</text><text x="200" y="166">−</text></g>
+    </g>
+  </g>
+  <line x1="545" y1="295" x2="680" y2="295" stroke="#7c3aed" stroke-width="2"/>
+  <text x="612" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#5b21b6">fracture plane: like charges align</text>
+  <text x="400" y="365" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#4b5563">Blue circles are cations; red circles are anions.</text>
+</svg>
