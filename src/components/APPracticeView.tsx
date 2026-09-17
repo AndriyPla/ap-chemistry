@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { topics } from '../content/config';
 import { shuffledOptions } from '../lib/options';
 import { getAPQuestions, type APBankQuestion } from '../content/apQuestionBank';
@@ -10,9 +10,11 @@ export function APPracticeView({scope,navigate}:{scope:Scope;navigate:(path:stri
  const questions=useMemo(()=>{
   return getAPQuestions(scope);
  },[scope]);
- const [index,setIndex]=useState(0),[selected,setSelected]=useState(''),[checked,setChecked]=useState(false),[marked,setMarked]=useState<Set<number>>(new Set()),[tool,setTool]=useState<'notes'|'calculator'|'reference'|'more'|null>(null),[navigatorOpen,setNavigatorOpen]=useState(false);
+ const [index,setIndex]=useState(0),[selected,setSelected]=useState(''),[checked,setChecked]=useState(false),[secondsLeft,setSecondsLeft]=useState(90),[marked,setMarked]=useState<Set<number>>(new Set()),[tool,setTool]=useState<'notes'|'calculator'|'reference'|'more'|null>(null),[navigatorOpen,setNavigatorOpen]=useState(false);
  const q=questions[index],info=scope==='2'?null:topics.find(t=>t.id===scope),options=useMemo(()=>shuffledOptions(q.id,q.options),[q.id,q.options]),answerValue=q.answer;
  const correct=selected===answerValue;
+ useEffect(()=>{setSecondsLeft(90)},[index]);
+ useEffect(()=>{if(secondsLeft<=0||(checked&&correct))return;const timer=window.setInterval(()=>setSecondsLeft(value=>Math.max(0,value-1)),1000);return()=>window.clearInterval(timer)},[secondsLeft,checked,correct]);
  const move=(next:number)=>{setIndex(Math.max(0,Math.min(questions.length-1,next)));setSelected('');setChecked(false);setNavigatorOpen(false)};
  const toggleMark=()=>setMarked(current=>{const next=new Set(current);next.has(index)?next.delete(index):next.add(index);return next});
  return <main id="main" className="ap-practice-shell">
@@ -20,15 +22,30 @@ export function APPracticeView({scope,navigate}:{scope:Scope;navigate:(path:stri
   <div className="ap-progress" aria-label={`Question ${index+1} of ${questions.length}`}>{questions.map((_,i)=><span key={i} className={`${i===index?'current ':''}${marked.has(i)?'marked ':''}${i<index?'visited':''}`}/>)}</div>
   {tool&&<ToolPanel tool={tool} close={()=>setTool(null)} exit={()=>navigate('/unit/2')}/>} 
   <section className="ap-question-stage">
-   <div className="ap-question-toolbar"><b>{index+1}</b><button className={marked.has(index)?'is-marked':''} onClick={toggleMark}><span aria-hidden="true">♡</span>{marked.has(index)?'Marked for Review':'Mark for Review'}</button><span className="ap-mcq-tag">MCQ</span></div>
+   <div className="ap-question-toolbar"><b>{index+1}</b><button className={marked.has(index)?'is-marked':''} onClick={toggleMark}><span aria-hidden="true">♡</span>{marked.has(index)?'Marked for Review':'Mark for Review'}</button><time className={`ap-question-timer ${secondsLeft<=30?'warning':''} ${secondsLeft===0?'expired':''}`} aria-label={`${secondsLeft} seconds remaining`} dateTime={`PT${secondsLeft}S`}>◷ {Math.floor(secondsLeft/60)}:{String(secondsLeft%60).padStart(2,'0')}</time><span className="ap-mcq-tag">MCQ</span></div>
    <APQuestionVisual question={q}/>
    <article className="ap-question-content"><p>{q.prompt}</p><fieldset><legend className="sr-only">Select one answer</legend>{options.map((option,i)=><label className={`ap-answer ${selected===option?'selected ':''}${checked&&option===answerValue?'correct ':''}${checked&&selected===option&&option!==answerValue?'incorrect':''}`} key={option}><input type="radio" name={q.id} checked={selected===option} onChange={()=>{setSelected(option);setChecked(false)}}/><span className="ap-answer-letter">{String.fromCharCode(65+i)}</span><span>{option}</span><button type="button" aria-label={`Eliminate choice ${String.fromCharCode(65+i)}`} onClick={e=>{e.preventDefault();e.currentTarget.closest('label')?.classList.toggle('eliminated')}}>⊘</button></label>)}</fieldset>
     <div className="ap-check-row"><button disabled={!selected} onClick={()=>setChecked(true)}>✓&nbsp; Check Answer</button></div>
-    {checked&&<div className={`ap-result ${correct?'correct':'incorrect'}`} role="status"><b>{correct?'Correct':'Not quite'}</b><span>{correct?q.solution:'Review the evidence in each choice, then try again or move to the next question.'}</span></div>}
+    {secondsLeft===0&&!correct&&<p className="ap-time-message" role="status">Time is up. Finish this attempt or move to the next question.</p>}
+    {checked&&<div className={`ap-result ${correct?'correct':'incorrect'}`} role="status"><b>{correct?'Correct':'Incorrect — keep trying'}</b><span>{correct?q.solution:getIncorrectGuidance(q)}</span></div>}
    </article>
   </section>
   <footer className="ap-practice-bottom"><button className="ap-brand" onClick={()=>navigate('/unit/2')}><span>⚗</span>AP Chemistry Practice</button><button className="ap-question-count" onClick={()=>setNavigatorOpen(!navigatorOpen)}>Question {index+1} of {questions.length}⌃</button><div className="ap-bottom-actions"><button onClick={()=>move(index-1)} disabled={index===0}>Back</button><button className="ap-next" onClick={()=>move(index+1)} disabled={index===questions.length-1}>Next</button></div>{navigatorOpen&&<nav className="ap-navigator" aria-label="Question navigator">{questions.map((_,i)=><button key={i} className={`${i===index?'current ':''}${marked.has(i)?'marked':''}`} onClick={()=>move(i)}>{i+1}</button>)}</nav>}</footer>
  </main>
+}
+
+function getIncorrectGuidance(question:APBankQuestion){
+ const guidance:Record<string,string>={
+  '2.1':'Recheck how the particles are held together and whether electrons are transferred, shared, or mobile. Use electronegativity only as evidence—not as a rigid cutoff.',
+  '2.2':'Compare the choice with the graph or bond relationship: the minimum gives equilibrium distance, well depth reflects bond strength, and the slope indicates force.',
+  '2.3':'Recheck ion charge, ionic radius, and whether the ions are fixed or mobile in the state described.',
+  '2.4':'Look again at atom sizes and locations. Substitutional atoms replace lattice atoms; smaller interstitial atoms occupy gaps; mobile electrons explain conductivity.',
+  '2.5':'Count all valence electrons, then check the skeleton, bonds, lone pairs, and each atom’s duet or octet before choosing again.',
+  '2.6':'Recalculate formal charges or compare equivalent bond evidence. Resonance moves electrons, not atoms, and the real structure is a hybrid.',
+  '2.7':'Count electron domains first, then separate electron geometry from molecular shape and check whether bond dipoles cancel by symmetry.',
+  mixed:'Identify which Unit 2 model the question tests, then test the selected choice against the given particle, energy, Lewis, resonance, or geometry evidence.',
+ };
+ return `${guidance[question.topic]} Your selected choice does not satisfy that evidence. Try another answer.`;
 }
 
 function APQuestionVisual({question}:{question:APBankQuestion}){
