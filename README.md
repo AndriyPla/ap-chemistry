@@ -1,6 +1,6 @@
 # AP Chemistry
 
-Interactive Unit 2 learning and practice by Andriy Plakosh. This is an independent educational resource, not affiliated with or endorsed by the College Board.
+Interactive Unit 2 learning and practice by AP. This is an independent educational resource, not affiliated with or endorsed by the College Board.
 
 ## Open the local app
 

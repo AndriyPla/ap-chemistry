@@ -4,7 +4,7 @@ This specification distills `AP_Chemistry_Master_Build_Prompt.md`. In conflicts,
 
 ## Requirements and acceptance criteria
 
-- **REQ-01 Product.** Show “AP Chemistry” and smaller “By Andriy Plakosh”; present an independent resource with no endorsement claim. **Accept:** visible on every route with footer disclaimer.
+- **REQ-01 Product.** Show “AP Chemistry” and smaller “By AP”; present an independent resource with no endorsement claim. **Accept:** visible on every route with footer disclaimer.
 - **REQ-02 Course map.** Show all nine current AP Chemistry units; only Unit 2 is active and all others say “Coming later.” **Accept:** inactive cards have no empty route.
 - **REQ-03 Unit 2 curriculum.** Topics 2.1–2.7 use current CED names and each has substantive objectives, vocabulary, explanations, example, misconceptions, AP reasoning, summary, and practice link. **Accept:** all seven lesson routes render these elements.
 - **REQ-04 Practice volume.** Exactly 50 unique records per active topic and 350 total, with stable IDs, difficulty, representation, concepts, accepted answer, hints, diagnostic, solution, lesson link, and evidence. **Accept:** expected-count manifest and content audit pass.
